@@ -56,15 +56,13 @@ class PhysicsExample extends Phaser.Scene
 
         // Booster Particle Config
         this.particleConfig = {
-            depth: 4,
             speed: {
                 onEmit: (particle, key, t, value) => this.ship.body.speed / 1,
-
             },
             lifespan: {
                 onEmit: (particle, key, t, value) => Phaser.Math.Percent(this.ship.body.speed, 0, 100) * 4000
             },
-            blendMode: 'NORMAL',
+            blendMode: 'SCREEN',
             emitZone: { type: 'line', source: new Phaser.Geom.Line(300, 300, 80, 80) },
             scale: { start: 0.001, end: 0.5 },
 
@@ -104,11 +102,15 @@ class PhysicsExample extends Phaser.Scene
         this.ship = this.matter.add.image(400, 300, 'ship', null, { plugin: this.wrapBounds });
         this.ship.setFrictionAir(0.8);
         this.ship.setMass(400);
-        this.ship.setScale(0.05);
-        this.ship.setDepth(4);
-        this.ship.setFixedRotation();
+        this.ship.setScale(0.8);
+        this.ship.setDepth(5);
+        //this.ship.setFixedRotation(); // Enable this if you want asteriod collisions to rotate the ship.
         this.ship.setCollisionCategory(this.shipCollisionCategory);
 
+        // Emitters for particle Effects
+        this.cometEmitter = this.add.particles('comet').createEmitter(this.cometConfig).start();
+        this.boosterEmitter = this.add.particles(['red']).setDepth(4).createEmitter(this.particleConfig).startFollow(this.ship);
+        
 
         // Timed event to create asteroid fields randomly!
         const generateAsteriods = this.time.addEvent(
@@ -120,35 +122,28 @@ class PhysicsExample extends Phaser.Scene
             }
         );
 
-
         // LASER handling
         this.lasers = [];
         for (let i = 0; i < 64; i++) 
         {
             this.laser = new Laser(this.matter.world, -100, 100, 'laser', this.wrapBounds);
-
             this.laser.setCollisionCategory(this.laserCollisionCategory);
             this.laser.setCollidesWith([this.asteroidsCollisionCategory]);
             this.laser.setOnCollide(laserVsRock);
             this.lasers.push(this.laser);
         }
 
-        // Emitters for particle Effects
-        this.cometEmitter = this.add.particles('comet').createEmitter(this.cometConfig).start();
-        this.boosterEmitter = this.add.particles(['red']).setDepth(6).createEmitter(this.particleConfig).startFollow(this.ship);
-
         //Cursor Input Manager (keyboard)
         this.cursors = this.input.keyboard.createCursorKeys();
 
     }
-
 
     update() 
     {
 
         // RGB Comets
         this.cometEmitter.forEachAlive((particle, index) => {
-            changeParticleColor(particle);
+            changeParticleColorAndSize(particle);
         });
 
         if (this.cursors.left.isDown) 
@@ -163,11 +158,11 @@ class PhysicsExample extends Phaser.Scene
         // BOOST MODE!
         if (this.cursors.up.isDown && this.cursors.shift.isDown) 
         {
-            this.ship.thrust(0.018);
+            this.ship.thrust(2.8);
         } 
         else if (this.cursors.up.isDown) 
         {
-            this.ship.thrust(0.012);
+            this.ship.thrust(2.2);
         }
 
         if (this.cursors.space.isDown) 
@@ -184,11 +179,12 @@ class PhysicsExample extends Phaser.Scene
     }
 }
 
-function changeParticleColor(particle) 
+function changeParticleColorAndSize(particle) 
 {
     // Change the color of the particle to a new color
     const newColor = Phaser.Display.Color.RandomRGB();
     particle.tint = newColor.color;
+    particle.scale = Math.random(); // random incrases the size
 }
 
 
