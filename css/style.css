@@ -1,0 +1,126 @@
+header{
+    text-align: center;
+    margin: 10px;
+}
+#game-container{
+    margin: 0 auto;
+    width: 800px;
+    height: 600px; 
+    outline: green 5px;
+}
+
+canvas{
+    padding: 10px;
+
+}
+
+.o{
+  padding: 10px;
+  padding-left: 10px;
+  position: fixed;
+  margin: 0 auto;
+
+  width: inherit;
+  height: inherit;
+  background: radial-gradient( black, #072b55,#0e445a,
+  rgb(48, 5, 13), #0b2138, rgb(184, 27, 55),#032735, black);
+  background-size: 1000% 1000%;
+  animation: gradient 30s ease-in-out infinite alternate;
+  z-index: -4;
+
+}
+
+@keyframes gradient {
+0% {
+  background-position: 0% 100%;
+
+}
+25% {
+  background-position: 15% 80%;
+}
+50% {
+  background-position: 100% 50%;
+}
+75% {
+  background-position: 80% 20%;
+}
+100% {
+  background-position: 0% 0%;
+}
+}
+
+
+.o2{
+  background: url(/applications/tutorials/week02/Keyboard_Input/assets/stars.png);
+  z-index: -2;
+  animation:200s scroll infinite linear;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=90);
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.4;
+}
+
+.o3{
+  background:url(/applications/tutorials/week02/Keyboard_Input/assets/nebula.png);
+  z-index: -1;
+  animation:200s scroll2 infinite linear;
+}
+
+.o4{
+  background:url(/applications/tutorials/week02/Keyboard_Input/assets/clouds.png);
+  z-index: -1;
+  animation:200s scroll infinite linear;
+}
+
+@-webkit-keyframes scroll{
+  100%{
+    background-position:-3000px 0px;
+  }
+}
+@-moz-keyframes scroll{
+  100%{
+    background-position:-3000px 0px;
+  }
+}
+@-o-keyframes scroll{
+  100%{
+    background-position:-3000px 0px;
+  }
+}
+@-ms-keyframes scroll{
+  100%{
+    background-position:-3000px 0px;
+  }
+}
+@keyframes scroll{
+  100%{
+    background-position:-3000px 0px;
+  }
+}
+
+@-webkit-keyframes scroll2{
+  100%{
+    background-position:-3000px 0px;
+  }
+}
+@-moz-keyframes scroll2{
+  100%{
+    background-position:-3000px 0px;
+  }
+}
+@-o-keyframes scroll2{
+  100%{
+    background-position:-3000px 0px;
+  }
+}
+@-ms-keyframes scroll2{
+  100%{
+    background-position:-3000px 0px;
+  }
+}
+@keyframes scroll2{
+  100%{
+    background-position:3000px 0px;
+  }
+}
